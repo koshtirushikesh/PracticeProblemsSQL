@@ -438,3 +438,24 @@ select dbo.customerNameForId(1) _customerName;
 
 --Create a function that takes a city name as input and returns the total number of customers in that city. 
 --If there are no customers in the provided city, return a message saying that there are no customers in the given city.
+
+alter table Customers add city varchar(30)
+select * from Customers
+update Customers set city = 'mumbai' where customerName = 'rushi'
+update Customers set city = 'pune' where customerName = 'ram'
+update Customers set city = 'mumbai' where customerName = 'ram'
+
+create function CountOFCustomerInCity(@city varchar(30))
+returns varchar(max)
+as begin
+	if exists (select * from Customers where city =@city)
+	return (select count(*) from Customers where city = @city);
+
+	return 'no customers in the given city';
+end
+
+select dbo.CountOFCustomerInCity('mumbai') 'count in city';
+
+-- Create a function that takes a sale ID as input and returns the sale amount. 
+-- If the sale ID does not exist in the 'Sales' table, return a message saying that the sale does not exist.
+
